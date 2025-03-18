@@ -1,5 +1,6 @@
 import java.util.Scanner;
-
+import java.util.*;
+import java.util.Iterator;
 public class HandleOrders {
 
     private static final double PIZZA_BASE_PRICE = 10.0;
@@ -11,6 +12,7 @@ public class HandleOrders {
     private double totalOrderPrice = 0.0;
     private int numberOfPizzasOrdered = 0;
     StringBuilder pizzaOrderSummary = new StringBuilder();
+    List<CustomPizza> customPizzas = new ArrayList<>();
 
     Scanner input = new Scanner(System.in);
 
@@ -86,7 +88,8 @@ public class HandleOrders {
                     k++;
                 }
                 System.out.println("Please enter a maximum of 10 topping choices.\n");
-
+                
+                StringBuilder customPizzaToppings = new StringBuilder();
                 StringBuilder customPizza = new StringBuilder(" Custom Pizza with ");
                 
                 int l = 1;
@@ -97,11 +100,14 @@ public class HandleOrders {
                     if(toppingChoice == 0){
                         break;
                     }
+                    customPizzaToppings.append(PizzaToppings.values()[toppingChoice-1].getTopping() + ", ");
                     customPizza.append(PizzaToppings.values()[toppingChoice-1].getTopping() + ", ");
                     customPizzaPrice += PizzaToppings.values()[toppingChoice-1].getToppingPrice();
                     l++;
                 }while(l!=10 || l!=0);
                 
+                CustomPizza cust = new CustomPizza(customPizzaToppings.toString(), customPizzaPrice);
+                customPizzas.add(cust);
                 customPizzaPrice += PIZZA_BASE_PRICE;
                 
                 customPizza.append(": €" + customPizzaPrice);
@@ -190,4 +196,9 @@ public class HandleOrders {
         return pizzaOrderSummary.toString();
     }
     
+    public void displayCustomPizzas(){
+        for(CustomPizza a : customPizzas){
+           System.out.println(a);
+        }
+    }
 }
